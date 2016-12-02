@@ -8,7 +8,7 @@ import logging
 
 from psycopg2 import errorcodes
 
-from openerp import models, api, exceptions
+from openerp import models, api
 from openerp import _
 
 

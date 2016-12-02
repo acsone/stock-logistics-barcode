@@ -5,12 +5,13 @@
 {
     "name": "Stock Scanner Web",
     "summary": "Responsive web to work with stock scanner scenarios",
-    "version": "1.0.0",
+    "version": "8.0.1.0.0",
     "category": "Warehouse",
     "website": "https://odoo-community.org/",
     "author": "Eficent Business and IT Consulting Services, S.L.",
     "application": False,
     "installable": True,
+    "license": "AGPL-3",
     "depends": [
         "stock_scanner",
     ],

@@ -79,8 +79,6 @@
             <t t-call="stock_scanner_web.layout">
                 <div id="wrap" class="oe_structure oe_empty" data-role="page">
                     <div data-role="main" class="ui-content">
-                        <!--<a t-attf-href="/scanner_call/"-->
-                           <!--class="ui-btn ui-btn-inline ui-btn-b">Home</a>-->
                         <div class="col-xs-12 text-center">
                             <p t-if="code == 'L'">
                                 <div data-role="controlgroup"
@@ -189,7 +187,8 @@
                                 <form method="get"
                                     t-att-action="'/scanner_call/%s/action' % (terminal_number)" class="search_class form-inline">
                                     <div class="input-group">
-                                        <input type="text" name="message" class="search-query form-control"/>
+                                        <input type="text" name="message"
+                                               class="search-query form-control" autofocus="autofocus"/>
                                         <span class="input-group-btn">
                                             <button type="submit"
                                                     class="ui-btn-b"><i
@@ -216,13 +215,26 @@
                                     Go to menu
                                 </a>
                             </p>
+                            <p t-if="action is not 'reset'">
+                                <a id="btn-home"
+                                   t-attf-href="/scanner_call/{{terminal_number}}/?action=reset" class="ui-btn ui-mini">
+                                    Main Menu
+                                </a>
+                            </p>
+                            <!--<p t-if="code is 'Z'">-->
+                                <!--<a id="btn-home"-->
+                                   <!--t-attf-href="/scanner_call/{{terminal_number}}/?action=reset" class="ui-btn ui-mini">-->
+                                    <!--Soy Z :)-->
+                                <!--</a>-->
+                            <!--</p>-->
                             <p>
                                 <!-- Debuggin tags:-->
-                                <!--<h3>-->
-                                    <!--<span t-esc="code" > </span>-->
-                                <!--</h3>-->
-                                <!--<span t-esc="result"/>-->
-                                <!--<span t-esc="value"/>-->
+                                <h3>
+                                    <span t-esc="code" > </span>
+                                </h3>
+                                <span t-esc="result"/>
+                                <span t-esc="value"/>
+                                <span t-esc="action"/>
                             </p>
                         </div>
                     </div>
