@@ -169,7 +169,8 @@
                                 <form method="get"
                                     t-att-action="'/scanner_call/%s/action' % (terminal_number)" class="search_class form-inline">
                                     <div class="input-group">
-                                        <input type="number" name="message" class="search-query form-control"/>
+                                        <input type="number" name="message"
+                                               class="search-query form-control" autofocus="autofocus"/>
                                         <span class="input-group-btn">
                                             <button class="ui-btn">Submit</button>
                                         </span>
@@ -220,21 +221,6 @@
                                    t-attf-href="/scanner_call/{{terminal_number}}/?action=reset" class="ui-btn ui-mini">
                                     Main Menu
                                 </a>
-                            </p>
-                            <!--<p t-if="code is 'Z'">-->
-                                <!--<a id="btn-home"-->
-                                   <!--t-attf-href="/scanner_call/{{terminal_number}}/?action=reset" class="ui-btn ui-mini">-->
-                                    <!--Soy Z :)-->
-                                <!--</a>-->
-                            <!--</p>-->
-                            <p>
-                                <!-- Debuggin tags:-->
-                                <h3>
-                                    <span t-esc="code" > </span>
-                                </h3>
-                                <span t-esc="result"/>
-                                <span t-esc="value"/>
-                                <span t-esc="action"/>
                             </p>
                         </div>
                     </div>
