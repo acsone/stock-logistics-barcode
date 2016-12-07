@@ -11,7 +11,7 @@
         <record id="stock_web_action" model="ir.actions.act_url">
             <field name="name">Stock Web</field>
             <field name="target">self</field>
-            <field name="url">scanner_call</field>
+            <field name="url">stock_scanner_web</field>
         </record>
 
         <menuitem id="stock_picking_web"

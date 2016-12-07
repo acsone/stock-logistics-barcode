@@ -11,7 +11,7 @@
             <meta name="viewport"
                   content="width=device-width, initial-scale=1"/>
             <script type="text/javascript"
-                    src="/stock_scanner_web/static/lib/js/jquery-1.11.3.min.js"/>
+                    src="/web/static/lib/jquery/jquery.js"/>
             <link rel="stylesheet"
                   href="/stock_scanner_web/static/lib/css/jquery.mobile-1.4.5.min.css"/>
             <script type="text/javascript"
@@ -24,7 +24,7 @@
                     <title>Scanner Web</title>
                     <t t-call-assets="stock_scanner_web.assets_frontend" t-js="false"/>
                 </head>
-                <body style="background-color:powderblue;">
+                <body>
                     <div class="content" >
                         <t t-raw="0"/>
                     </div>
@@ -47,27 +47,40 @@
                                      data-type="vertical">
                                     <t t-foreach="result" t-as="line">
                                         <a id="btn-go"
-                                           t-attf-href="/scanner_call/{{line}}" class="ui-btn">
+                                           t-attf-href="/stock_scanner_web/{{line}}" class="ui-btn">
                                             <span t-esc="line"/>
                                         </a>
                                     </t>
                                 </div>
                             </p>
-                            <p t-if="code in ['E','N']">
+                            <p t-if="code == 'N'">
                                 <h3>
                                     <span t-esc="result"/>
                                 </h3>
-                                <p t-if="code == 'E'">
-                                    <a id="btn-go" t-attf-href="/scanner_call/" class="ui-btn">
-                                        Back
-                                    </a>
-                                </p>
-                                <p t-if="code == 'N'">
-                                    <a id="btn-back" href="#" data-rel="back"
-                                       class="ui-btn ui-btn-b">
-                                        Back to Odoo
-                                    </a>
-                                </p>
+                                <a id="btn-back" href="#" data-rel="back"
+                                   class="ui-btn ui-btn-b">
+                                    Back to Odoo
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+        <template id="error_message" name="header" page="True">
+            <t t-call="stock_scanner_web.layout">
+                <div id="wrap" class="oe_structure oe_empty" data-role="page">
+                    <div data-role="main" class="ui-content">
+                        <div class="col-xs-12 text-center">
+                            <h3>
+                                <span t-esc="result"/>
+                            </h3>
+                            <p t-if="code == 'E'">
+                                <a id="btn-go" t-attf-href="/stock_scanner_web/" class="ui-btn">
+                                    Back
+                                </a>
                             </p>
                         </div>
                     </div>
@@ -86,7 +99,7 @@
                                     <t t-foreach="result" t-as="line">
                                         <t t-if="len(line) != 2 and line[0] != '|'">
                                             <a id="btn-go"
-                                               t-attf-href="/scanner_call/{{terminal_number}}/action/{{line}}" class="ui-btn">
+                                               t-attf-href="/stock_scanner_web/{{terminal_number}}/action/{{line}}" class="ui-btn">
                                                 <span t-esc="line"/>
                                             </a>
                                         </t>
@@ -97,7 +110,7 @@
                                         </t>
                                         <t t-if="len(line) == 2 and line[0] != '|'">
                                             <a id="btn-go"
-                                               t-attf-href="/scanner_call/{{terminal_number}}/action?message={{line[0]}}" class="ui-btn">
+                                               t-attf-href="/stock_scanner_web/{{terminal_number}}/action?message={{line[0]}}" class="ui-btn">
                                                 <span t-esc="line[1]"/>
                                             </a>
                                         </t>
@@ -112,7 +125,7 @@
                                     <p t-esc="line"/>
                                 </t>
                                 <a id="btn-go"
-                                   t-attf-href="/scanner_call/{{terminal_number}}/action/0" class="ui-btn">
+                                   t-attf-href="/stock_scanner_web/{{terminal_number}}/action/0" class="ui-btn">
                                     Go
                                 </a>
                             </p>
@@ -124,7 +137,7 @@
                                     <p t-esc="line"/>
                                 </t>
                                 <a id="btn-go"
-                                   t-attf-href="/scanner_call/{{terminal_number}}/back" class="ui-btn">
+                                   t-attf-href="/stock_scanner_web/{{terminal_number}}/back" class="ui-btn">
                                     Back
                                 </a>
                             </p>
@@ -136,7 +149,7 @@
                                     <p t-esc="line"/>
                                 </t>
                                 <a id="btn-go"
-                                   t-attf-href="/scanner_call/{{terminal_number}}/Menu" class="ui-btn">
+                                   t-attf-href="/stock_scanner_web/{{terminal_number}}/Menu" class="ui-btn">
                                     Go to menu
                                 </a>
                             </p>
@@ -149,11 +162,11 @@
                                     <p t-esc="line"/>
                                 </t>
                                 <a id="btn-go"
-                                   t-attf-href="/scanner_call/{{terminal_number}}/action?message=True" class="ui-btn">
+                                   t-attf-href="/stock_scanner_web/{{terminal_number}}/action?message=True" class="ui-btn">
                                     Yes
                                 </a>
                                 <a id="btn-go"
-                                   t-attf-href="/scanner_call/{{terminal_number}}/action?message=False" class="ui-btn">
+                                   t-attf-href="/stock_scanner_web/{{terminal_number}}/action?message=False" class="ui-btn">
                                     No
                                 </a>
                             </p>
@@ -167,7 +180,7 @@
                                 </t>
 
                                 <form method="get"
-                                    t-att-action="'/scanner_call/%s/action' % (terminal_number)" class="search_class form-inline">
+                                    t-att-action="'/stock_scanner_web/%s/action' % (terminal_number)" class="search_class form-inline">
                                     <div class="input-group">
                                         <input type="number" name="message"
                                                class="search-query form-control" autofocus="autofocus"/>
@@ -186,7 +199,7 @@
                                 </t>
 
                                 <form method="get"
-                                    t-att-action="'/scanner_call/%s/action' % (terminal_number)" class="search_class form-inline">
+                                    t-att-action="'/stock_scanner_web/%s/action' % (terminal_number)" class="search_class form-inline">
                                     <div class="input-group">
                                         <input type="text" name="message"
                                                class="search-query form-control" autofocus="autofocus"/>
@@ -205,20 +218,20 @@
                                     </t>
                                 </h3>
                                 <a id="btn-go"
-                                   t-attf-href="/scanner_call/{{terminal_number}}/Menu" class="ui-btn">
+                                   t-attf-href="/stock_scanner_web/{{terminal_number}}/Menu" class="ui-btn">
                                     Go to menu
                                 </a>
                             </p>
                             <p t-if="code == 'U'">
                                 <h3>Please, contact you administrator</h3>
                                 <a id="btn-go"
-                                   t-attf-href="/scanner_call/{{terminal_number}}/back" class="ui-btn">
+                                   t-attf-href="/stock_scanner_web/{{terminal_number}}/back" class="ui-btn">
                                     Go to menu
                                 </a>
                             </p>
                             <p t-if="action is not 'reset'">
                                 <a id="btn-home"
-                                   t-attf-href="/scanner_call/{{terminal_number}}/?action=reset" class="ui-btn ui-mini">
+                                   t-attf-href="/stock_scanner_web/{{terminal_number}}/?action=reset" class="ui-btn ui-mini">
                                     Main Menu
                                 </a>
                             </p>
