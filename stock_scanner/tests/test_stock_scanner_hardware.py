@@ -314,32 +314,36 @@ class TestStockScannerHardware(common.TransactionCase):
             'without waiting for any user input.',
         ], 0))
 
-    def test_data_serialization(self):
-        """ Check that json properties write the right value in tmp fields """
-        self.hardware.json_tmp_val1 = ''
-        self.assertEqual(self.hardware.tmp_val1, '""')
-        self.hardware.json_tmp_val2 = {'a': 'b', 'c': 'd'}
-        self.assertEqual(self.hardware.tmp_val2, '{"a": "b", "c": "d"}')
-        self.hardware.json_tmp_val3 = range(5)
-        self.assertEqual(self.hardware.tmp_val3, '[0, 1, 2, 3, 4]')
-        self.hardware.json_tmp_val4 = 'text value'
-        self.assertEqual(self.hardware.tmp_val4, '"text value"')
-        self.hardware.json_tmp_val5 = 13.5
-        self.assertEqual(self.hardware.tmp_val5, '13.5')
+    def test_tmp_values(self):
+        hardware = self.hardware
 
-    def test_data_deserialization(self):
-        """ Check that json properties write the right value in tmp fields """
-        self.hardware.tmp_val1 = '""'
-        self.assertEqual(self.hardware.json_tmp_val1, '')
-        self.hardware.tmp_val2 = '{"a": "b", "c": "d"}'
-        self.assertEqual(self.hardware.json_tmp_val2, {'a': 'b', 'c': 'd'})
-        self.hardware.tmp_val3 = '[0, 1, 2, 3, 4]'
-        self.assertEqual(self.hardware.json_tmp_val3, range(5))
-        self.hardware.tmp_val4 = '"text value"'
-        self.assertEqual(self.hardware.json_tmp_val4, 'text value')
-        self.hardware.tmp_val5 = '13.5'
-        self.assertEqual(self.hardware.json_tmp_val5, 13.5)
+        hardware.set_tmp_value('tmp_val_1', '')
+        self.assertEqual(hardware.get_tmp_value('tmp_val_1'), '')
 
-    def test_read_unitialized_json_value(self):
-        """ Reading an uninitialized json value should return None """
-        self.assertEqual(self.hardware.json_tmp_val1, None)
+        tmp_val_1 = 'test 1'
+        tmp_val_2 = range(5)
+
+        hardware.update_tmp_values({
+            'tmp_val_1': 'test 1',
+            'tmp_val_2': tmp_val_2,
+        })
+        self.assertEqual(hardware.get_tmp_value('tmp_val_1'), tmp_val_1)
+        self.assertEqual(hardware.get_tmp_value('tmp_val_2'), tmp_val_2)
+        self.assertEqual(hardware.get_tmp_value('none'), None)
+
+        hardware.set_tmp_value('tmp_dict', {
+            'extra_1': tmp_val_1,
+            'extra_2': tmp_val_2,
+        })
+        self.assertEqual(hardware.get_tmp_value('tmp_dict'), {
+            'extra_1': tmp_val_1,
+            'extra_2': tmp_val_2,
+        })
+        self.assertEqual(
+            hardware.get_tmp_value('tmp_dict').get('extra_1'),
+            tmp_val_1)
+
+        hardware.set_tmp_value('tmp_float', 13.5)
+        self.assertEqual(hardware.get_tmp_value('tmp_float'), 13.5)
+        hardware.clean_tmp_values(['tmp_float'])
+        self.assertEqual(hardware.get_tmp_value('tmp_float'), None)
