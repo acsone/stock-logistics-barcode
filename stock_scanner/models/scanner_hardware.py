@@ -2,7 +2,6 @@
 # © 2011 Sylvain Garancher <sylvain.garancher@syleam.fr>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import json
 import logging
 import random
 import time
@@ -172,61 +171,36 @@ class ScannerHardware(models.Model):
         required=True,
         default='red',
         help='Color for the error background.')
+    tmp_values = fields.Serialized(
+        readonly=True,
+    )
 
-    @property
     @api.multi
-    def json_tmp_val1(self):
+    def update_tmp_values(self, values):
         self.ensure_one()
-        return json.loads(self.tmp_val1 or 'null')
+        tmp_values = self.tmp_values
+        tmp_values.update(values)
+        self.write({'tmp_values': tmp_values})
 
-    @json_tmp_val1.setter
-    def json_tmp_val1(self, value):
-        self.ensure_one()
-        self.tmp_val1 = json.dumps(value)
-
-    @property
     @api.multi
-    def json_tmp_val2(self):
+    def get_tmp_value(self, key_name, default=None):
         self.ensure_one()
-        return json.loads(self.tmp_val2 or 'null')
+        return self.tmp_values.get(key_name, default)
 
-    @json_tmp_val2.setter
-    def json_tmp_val2(self, value):
-        self.ensure_one()
-        self.tmp_val2 = json.dumps(value)
-
-    @property
     @api.multi
-    def json_tmp_val3(self):
+    def set_tmp_value(self, key_name, value):
         self.ensure_one()
-        return json.loads(self.tmp_val3 or 'null')
+        self.update_tmp_values({
+            key_name: value,
+        })
 
-    @json_tmp_val3.setter
-    def json_tmp_val3(self, value):
-        self.ensure_one()
-        self.tmp_val3 = json.dumps(value)
-
-    @property
     @api.multi
-    def json_tmp_val4(self):
+    def clean_tmp_values(self, items):
         self.ensure_one()
-        return json.loads(self.tmp_val4 or 'null')
-
-    @json_tmp_val4.setter
-    def json_tmp_val4(self, value):
-        self.ensure_one()
-        self.tmp_val4 = json.dumps(value)
-
-    @property
-    @api.multi
-    def json_tmp_val5(self):
-        self.ensure_one()
-        return json.loads(self.tmp_val5 or 'null')
-
-    @json_tmp_val5.setter
-    def json_tmp_val5(self, value):
-        self.ensure_one()
-        self.tmp_val5 = json.dumps(value)
+        values = self.tmp_values
+        for item in items:
+            values.pop(item, None)
+        self.update_tmp_values(values)
 
     @api.model
     def timeout_session(self):
@@ -408,6 +382,7 @@ class ScannerHardware(models.Model):
             'tmp_val3': '',
             'tmp_val4': '',
             'tmp_val5': '',
+            'tmp_values': {},
         })
         return True
 
