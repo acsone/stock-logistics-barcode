@@ -347,3 +347,7 @@ class TestStockScannerHardware(common.TransactionCase):
         self.assertEqual(hardware.get_tmp_value('tmp_float'), 13.5)
         hardware.clean_tmp_values(['tmp_float'])
         self.assertEqual(hardware.get_tmp_value('tmp_float'), None)
+
+        self.assertTrue(bool(hardware.tmp_values))
+        hardware.empty_scanner_values()
+        self.assertFalse(bool(hardware.tmp_values))
