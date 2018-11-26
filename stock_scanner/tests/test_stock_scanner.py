@@ -149,6 +149,8 @@ class TestStockScanner(common.TransactionCase):
     def test_login_logout(self):
         demo_uid = self.ref('base.user_demo')
         user_demo = self.browse_ref('base.user_demo')
+        # auth_crypt is instaled by default - standard password == ''
+        user_demo_password = 'demo'
         sentinel_uid = self.ref('stock_scanner.user_sentinel')
         scanner_scenario_login = self.browse_ref(
             'stock_scanner.scanner_scenario_login')
@@ -232,7 +234,7 @@ class TestStockScanner(common.TransactionCase):
         # and the right pwd
         ret = scanner_hardware.scanner_call(
             code, action='action',
-            message=user_demo.password)
+            message=user_demo_password)
         # now we are logged in
         self.assertEquals(('F', ['You are now authenticated as demo !'], 0),
                           ret)
