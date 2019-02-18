@@ -596,7 +596,7 @@ class Sentinel(object):
         """
         Allows the user to select quantity
         """
-        confirm = False
+        confirm = True
 
         while True:
             # Clear the screen
