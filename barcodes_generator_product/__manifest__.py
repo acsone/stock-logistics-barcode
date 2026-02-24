@@ -16,10 +16,10 @@
     "data": [
         "views/view_product_product.xml",
         "views/view_product_template.xml",
-        "demo/barcode_rule.xml",
     ],
     "maintainers": ["legalsylvain"],
     "demo": [
+        "demo/barcode_rule.xml",
         "demo/res_users.xml",
         "demo/product.xml",
     ],
